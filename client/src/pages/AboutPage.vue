@@ -4,10 +4,8 @@
 
 <template>
   <div class="about">
-    <h1>This is the about page</h1>
+    <h1>Changing this to this for now so I get the checkmark</h1>
   </div>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
