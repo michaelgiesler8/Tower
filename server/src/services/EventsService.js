@@ -1,3 +1,6 @@
+import { dbContext } from '../db/DbContext'
+import { BadRequest, Forbidden } from '../utils/Errors'
+
 class EventsService {
   async getEvents() {
     const events = await dbContext.Events.find()
