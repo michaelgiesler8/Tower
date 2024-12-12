@@ -10,6 +10,8 @@ export class EventsController extends BaseController {
       .get('/:id', this.getEventById)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createEvent)
+      .put(':id', this.editEvent)
+      .delete('/:id', this.cancelEvent)
   }
 
   async getEvents(req, res, next) {
