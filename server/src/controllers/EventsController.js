@@ -5,6 +5,7 @@ import { eventsService } from '../services/EventsService'
 export class EventsController extends BaseController {
   constructor() {
     super('api/events')
+    console.log('Events Controller Successfully Registered!')
     this.router
       .get('', this.getEvents)
       .get('/:id', this.getEventById)
