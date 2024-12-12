@@ -42,3 +42,5 @@ export class EventsController extends BaseController {
     }
   }
 }
+
+export const eventsController = new EventsController()
