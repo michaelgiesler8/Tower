@@ -3,7 +3,26 @@
 </script>
 
 <template>
-  <h1>Filler</h1>
+  <div class="home-page">
+    <section class="event-filters">
+      <button
+        v-for="type in eventTypes"
+        :key="type"
+        @click="filterEvents(type)"
+        class="filter-btn"
+      >
+        {{ type }}
+      </button>
+    </section>
+
+    <section class="events-grid">
+      <EventCard
+        v-for="event in events"
+        :key="event.id"
+        :event="event"
+      />
+    </section>
+  </div>
 </template>
 
 <style scoped lang="scss">

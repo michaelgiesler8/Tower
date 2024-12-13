@@ -4,7 +4,15 @@ import { logger } from '../utils/Logger.js'
 
 export const api = Axios.create({
   baseURL,
-  timeout: 8000
+  timeout: 8000,
+  withCredentials: true
+})
+
+api.interceptors.request.use(config => {
+  if(!config.headers) {
+    config.headers = {}
+  }
+  return config
 })
 
 api.interceptors.request.use(config => config, handleAxiosError)
