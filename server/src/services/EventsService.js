@@ -2,18 +2,23 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest, Forbidden } from '../utils/Errors'
 
 class EventsService {
-  async getEvents() {
-    const events = await dbContext.Events.find()
+  async getEventsById(eventId) {
+    const events = await dbContext.Events.findById(eventId)
       .populate('creator')
+      .populate('ticketCount')
+    if (!event) {
+      throw new Error('Invalid Event Id')
+    }
     return events
   }
 
-  async getEventById(id) {
-    const event = await dbContext.Events.findById(id)
-      .populate('creator', 'name picture')
-    if (!event) {
-      throw new BadRequest('Invalid Event Id')
+  async cancelEvent(eventId, userId) {
+    const event = await this.getEventsById(eventId)
+    if (event.creatorId.toString() !== userId) {
+      throw new Error('Unauthorized')
     }
+    event.isCanceled = true
+    await event.save()
     return event
   }
 
@@ -23,5 +28,7 @@ class EventsService {
     return events
   }
 }
+
+
 
 export const eventsService = new EventsService
