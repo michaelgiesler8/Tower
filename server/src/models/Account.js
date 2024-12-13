@@ -1,7 +1,7 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-const Account = new Schema(
+export const AccountSchema = new Schema(
   {
     subs: [{ type: String }],
     email: { type: String, lowercase: true, unique: true },
@@ -13,5 +13,5 @@ const Account = new Schema(
   { timestamps: true, toJSON: { virtuals: true } }
 )
 
-export const AccountSchema = mongoose.model('Account', Account);
+
 
