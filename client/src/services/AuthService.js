@@ -10,9 +10,9 @@ export const AuthService = initialize({
   domain,
   clientId,
   authorizationParams: {
-    audience,
-    redirect_uri: window.location.origin,
-  }
+    audience: 'https://dev-s6n62lvv6zbfoman.us.auth0.com/api/v2/',
+    redirect_uri: window.location.origin + '/callback',
+  },
 })
 
 AuthService.on(AUTH_EVENTS.AUTHENTICATED, async function() {

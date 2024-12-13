@@ -1,4 +1,5 @@
 import { dbContext } from '../db/DbContext'
+import { ApiClient } from './ApiService'
 
 // Private Methods
 
@@ -10,7 +11,7 @@ import { dbContext } from '../db/DbContext'
 async function createAccountIfNeeded(account, user) {
   if (!account) {
     user._id = user.id
-    if(typeof user.name == 'string' && user.name.includes('@')){
+    if (typeof user.name == 'string' && user.name.includes('@')) {
       user.name = user.nickname
     }
     account = await dbContext.Account.create({
@@ -60,7 +61,15 @@ class AccountService {
     })
     account = await createAccountIfNeeded(account, user)
     await mergeSubsIfNeeded(account, user)
-    return account
+
+    try {
+      const auth0Data = await ApiClient.get(`/users/${user.id}`);
+      account.auth0Data = auth0Data.data;
+    } catch (error) {
+      console.error('Error fetching user data from Auth0', error.message);
+    }
+
+    return account;
   }
 
   /**
@@ -74,8 +83,18 @@ class AccountService {
       { _id: user.id },
       { $set: update },
       { runValidators: true, setDefaultsOnInsert: true, new: true }
-    )
-    return account
+    );
+
+    try {
+      await ApiClient.patch(`/users/${user.id}`, {
+        name: update.name,
+        picture: update.picture,
+      });
+    } catch (error) {
+      console.error('Error updating user data in Auth0:', error.message);
+    }
+    return account;
   }
 }
-export const accountService = new AccountService()
+
+export const accountService = new AccountService();
