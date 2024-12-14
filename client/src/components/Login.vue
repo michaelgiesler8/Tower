@@ -1,18 +1,3 @@
-<script setup>
-import { computed } from 'vue';
-import { AppState } from '../AppState.js';
-import { AuthService } from '../services/AuthService.js';
-
-const identity = computed(() => AppState.identity)
-const account = computed(() => AppState.account)
-async function login() {
-  AuthService.loginWithPopup()
-}
-async function logout() {
-  AuthService.logout()
-}
-
-</script>
 
 <template>
   <span class="navbar-text">
@@ -44,5 +29,35 @@ async function logout() {
     </div>
   </span>
 </template>
+
+<script>
+import { computed } from 'vue';
+import { AppState } from '../AppState.js';
+import { AuthService } from '../services/AuthService.js';
+
+export default {
+  setup() {
+    return {
+      user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
+      async login() {
+        try {
+          await AuthService.loginWithPopup()
+        } catch (error) {
+          console.error('[LOGIN ERROR]', error)
+        }
+      },
+      async logout() {
+        try {
+          await AuthService.logout()
+        } catch (error) {
+          console.error('[LOGOUT ERROR]', error)
+        }
+      }
+    }
+  }
+}
+
+</script>
 
 <style lang="scss" scoped></style>
