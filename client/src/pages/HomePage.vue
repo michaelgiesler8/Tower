@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts">
 import { computed, ref, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import Pop from '../utils/Pop'
@@ -32,9 +32,11 @@ import EventCard from '../components/EventCard.vue'
 import { eventsService } from '../services/EventsService'
 
 
-export default {
+export default defineComponent({
   name: 'HomePage',
-  components { EventCard },
+  components: { 
+    EventCard 
+  },
   setup() {
     const selectedType = ref('all')
     const eventTypes = ['all', 'concert', 'convention', 'sport', 'digital']
@@ -47,7 +49,9 @@ export default {
       }
     }
 
-    onMounted(getEvents)
+    onMounted(() => {
+      getEvents()
+    })
 
     return {
       selectedType,
@@ -55,7 +59,7 @@ export default {
       events: computed(() => AppState.events)
     }
   }
-}
+})
 </script>
 
 
