@@ -15,5 +15,30 @@
     >
       Get Ticket
     </button>
+
+    <div class="comments-section">
+      <form @submit.prevent="postComment" class="comment-form">
+        <textarea v-model="newComment" required></textarea>
+        <button type="submit">Post Comment</button>
+      </form>
+
+      <div class="comments-list">
+        <div v-for="comment in comments" :key="comment.id" class="comment">
+          <img :src="comment.creator.picture" class="creator-img">
+          <div class="comment-content">
+            <h4>{{ comment.creator.name }}</h4>
+            <p>{{  comment.body }}</p>
+          </div>
+          <button
+            v-if="comment.creatorId === userId"
+            @click="deleteComment(comment.id)"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
+
+

@@ -1,28 +1,27 @@
 {
-  "include": [
-    "./src/**/*.vue",
-    "./src/**/*.js",
-    "./vite-env.d.ts"
-  ],
   "compilerOptions": {
+    "moduleResolution": "node",
     "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
       ]
     },
-    "jsx": "preserve",
+    "skipLibCheck": true,
     "allowJs": true,
     "checkJs": true,
     "typeRoots": [
-      "./node_modules/@types",
-      "./"
+      "./node_modules/@types"
     ]
   },
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "public"
   ]
 }
