@@ -29,7 +29,7 @@ import { ref, onMounted, computed } from 'vue'
 import { AppState } from '../AppState'
 import Pop from '../utils/Pop'
 import EventCard from '../components/EventCard.vue'
-import { eventsService } from '../services/EventsService.js'
+import { eventsService } from '../services/TowerEventsService.js'
 
 export default { 
   name: 'HomePage',
