@@ -1,16 +1,19 @@
-import { dbContext } from '../db/DbContext';
+import { dbContext } from "../db/DbContext.js";
+import { BadRequest, Forbidden } from '../utils/Errors.js'
 
-class CommentService {
+class CommentsService {
+  async getEventComments(eventId) {
+    const comments = await dbContext.Comments.find({ eventId }).populate('creator', 'name picture');
+    return comments;
+  }
+
   async createComment(commentData) {
     const comment = await dbContext.Comments.create(commentData);
     await comment.populate('creator');
     return comment;
   }
 
-  async getCommentsByEvent(eventId) {
-    const comments = await dbContext.Comments.find({ eventId }).populate('creator', 'name picture');
-    return comments;
-  }
+
 
   async deleteComment(commentId, userId) {
     const comment = await dbContext.Comments.findById(commentId);
@@ -18,11 +21,11 @@ class CommentService {
       throw new Error('Comment not found');
     }
     if (comment.creatorId.toString() !== userId) {
-      throw new Error('Unauthorized');
+      throw new Error('Not yours to delete!');
     }
     await dbContext.Comments.findByIdAndDelete(commentId);
     return { message: 'Comment Successfully Deleted' };
   }
 }
 
-export const commentService = new CommentService();
+export const commentsService = new CommentsService();
