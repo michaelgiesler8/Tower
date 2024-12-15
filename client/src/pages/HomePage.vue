@@ -28,7 +28,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { AppState } from '../AppState'
 import Pop from '../utils/Pop'
-import EventCard from '../components/EventCard.vue'
+import EventCard from '../components/TowerEventCard.vue'
 import { eventsService } from '../services/TowerEventsService.js'
 
 export default { 
