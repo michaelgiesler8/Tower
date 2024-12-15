@@ -1,10 +1,19 @@
 import { AppState } from '../AppState'
 import { api } from './AxiosService'
+import Pop from "../utils/Pop"
 
 class TowerEventsService {
   async getEvents() {
-    const res = await api.get('api/events')
-    AppState.events = res.data
+    AppState.loading = true
+    try {
+      const res = await api.get('api/events')
+      AppState.events = res.data.map(e => new Event(e))
+    } catch (error) {
+      Pop.error(error)
+    }
+    finally {
+      AppState.loading = false
+    }
   }
 
   async getEventsById(id) {

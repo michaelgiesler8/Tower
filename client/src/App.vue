@@ -1,9 +1,3 @@
-<script setup>
-import Navbar from './components/Navbar.vue';
-import { AppState } from './AppState.js';
-
-</script>
-
 <template>
   <header>
     <Navbar />
@@ -11,10 +5,28 @@ import { AppState } from './AppState.js';
   <main>
     <router-view />
   </main>
-  <footer class="bg-dark text-light">
+  <footer class="bg-dark text-light text-center p-4">
     Made with 💖 by Michael
   </footer>
 </template>
+
+<script>
+import { computed } from 'vue'
+import { AppState } from './AppState.js'
+import Navbar from './components/Navbar.vue'
+import LoadingComponent from './components/LoadingComponent.vue'
+
+export default {
+  name: 'App',
+  setup() {
+    return {
+      appState: computed(() => AppState)
+    }
+  },
+  components: { Navbar, LoadingComponent }
+}
+</script>
+
 
 <style lang="scss">
 @import '@/assets/scss/main.scss';
