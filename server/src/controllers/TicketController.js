@@ -6,10 +6,10 @@ export class TicketsController extends BaseController {
   constructor() {
     super('api/tickets')
     this.router
-      .get('/:eventId, this.getEventTickets)
-        .use(Auth0Provider.getAuthorizedUserInfo)
-        .post('', this.createTicket)
-        .delete('/:id', this.removeTicket)
+      .get('/:eventId', this.getEventTickets)
+      .use(Auth0Provider.getAuthorizedUserInfo)
+      .post('', this.createTicket)
+      .delete('/:id', this.removeTicket)
   }
 
   async getEventTickets(req, res, next) {

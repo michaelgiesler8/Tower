@@ -1,9 +1,17 @@
-import { dbContext } from "../db/DbContext";
-import { eventsService } from "./EventsService";
+import { dbContext } from "../db/DbContext.js";
+import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { towerEventsService } from "./TowerEventsService.js";
 
 class TicketService {
+
+  async getEventTickets(eventId) {
+    const tickets = await dbContext.Tickets.find({ eventId })
+      .populate('profile', 'name picture')
+    return tickets
+  }
+
   async createTicket(ticketData) {
-    const event = await eventsService.getEventsById(ticketData.eventId);
+    const event = await towerEventsService.getById(ticketData.eventId);
     if (event.isCanceled) {
       throw new Error('Event is canceled');
     }
