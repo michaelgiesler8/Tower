@@ -9,7 +9,7 @@ export class TicketsController extends BaseController {
       .get('/:eventId', this.getEventTickets)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createTicket)
-      .delete('/:id', this.removeTicket)
+      .delete('/:id', this.deleteTicket)
   }
 
   async getEventTickets(req, res, next) {
@@ -32,11 +32,11 @@ export class TicketsController extends BaseController {
     }
   }
 
-  async removeTicket(req, res, next) {
+  async deleteTicket(req, res, next) {
     try {
       const userId = req.userInfo.id
       const ticketId = req.params.id
-      const message = await ticketService.removeTicket(ticketId, userId)
+      const message = await ticketService.deleteTicket(ticketId, userId)
       return res.send(message)
     } catch (error) {
       next(error)

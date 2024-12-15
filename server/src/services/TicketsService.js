@@ -11,19 +11,21 @@ class TicketService {
   }
 
   async createTicket(ticketData) {
-    const event = await towerEventsService.getById(ticketData.eventId);
+    const event = await towerEventsService.getEventById(ticketData.eventId);
     if (event.isCanceled) {
-      throw new Error('Event is canceled');
+      throw new BadRequest('Event is canceled');
     }
-    if (await this.isEventFull(ticketData.eventId)) {
-      throw new Error('Event is sold out');
+    const tickets = await this.getEventTickets(ticketData.eventId)
+    if (tickets.length >= event.capacity) {
+      throw new BadRequest('Event is sold out');
     }
-    const ticket = await dbContext.Tickets.create(ticketData);
+    const ticket = await dbContext.Tickets.create(ticketData)
+    await ticket.populate('profile', 'name picture')
     return ticket;
   }
 
   async isEventFull(eventId) {
-    const event = await eventsService.getEventsById(eventId);
+    const event = await towerEventsService.getEventById(eventId);
     const ticketCount = await dbContext.Tickets.countDocuments({ eventId });
     return ticketCount >= event.capacity;
   }
