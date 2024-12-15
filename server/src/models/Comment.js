@@ -15,15 +15,8 @@ export const CommentSchema = new Schema(
 );
 
 CommentSchema.virtual('creator', {
-  ref: 'Account',
   localField: 'creatorId',
   foreignField: '_id',
-  justOne: true,
-});
-
-CommentSchema.virtual('event', {
-  ref: 'TowerEvent',
-  localField: 'eventId',
-  foreignField: '_id',
-  justOne: true,
-});
+  ref: 'Account',
+  justOne: true
+})
