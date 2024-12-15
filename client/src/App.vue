@@ -4,6 +4,7 @@
   </header>
   <main>
     <router-view />
+    <LoadingComponent />
   </main>
   <footer class="bg-dark text-light text-center p-4">
     Made with 💖 by Michael
@@ -15,6 +16,7 @@ import { computed } from 'vue'
 import { AppState } from './AppState.js'
 import Navbar from './components/Navbar.vue'
 import LoadingComponent from './components/LoadingComponent.vue'
+
 
 export default {
   name: 'App',
