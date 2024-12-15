@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
+import axios from 'axios'
 import { logger } from './Logger.js'
-import { AxiosError } from 'axios'
 
 const colorConfig = {
   confirmButtonColor: 'var(--bs-primary)',
@@ -33,8 +33,7 @@ function _error(error, eventTrigger = '') {
     background: 'var(--bs-danger-bg-subtle)'
   }
 
-
-  if (error instanceof AxiosError) {
+  if (error && error .isAxiosError) {
     const { response } = error
     config.text = 'An error occurred'
     config.title += (' ' + response.status.toString())
@@ -48,7 +47,6 @@ function _error(error, eventTrigger = '') {
   }
 
   return config
-
 }
 
 export default class Pop {
@@ -105,8 +103,6 @@ export default class Pop {
     })
   }
 
-
-
   /**
    * @param { string } message The message to display. If not provided, will display a generic message.
    */
@@ -130,7 +126,7 @@ export default class Pop {
   static meow(error, eventTrigger = '') {
     const config = _error(error, eventTrigger)
 
-    if (error instanceof AxiosError) {
+    if (error instanceof axios.AxiosError) {
       const { response } = error
       const statuscode = response.status.toString()
       config.imageUrl = `https://http.cat/${statuscode}`
@@ -142,5 +138,4 @@ export default class Pop {
 
     Swal.fire(config)
   }
-
 }
