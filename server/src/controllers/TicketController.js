@@ -2,7 +2,7 @@ import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController";
 import { ticketService } from "../services/TicketsService";
 
-export class TicketsController extends BaseController {
+export class TicketController extends BaseController {
   constructor() {
     super('api/tickets')
     this.router

@@ -2,7 +2,7 @@ import { Auth0Provider } from '@bcwdev/auth0provider';
 import BaseController from '../utils/BaseController';
 import { towerEventsService } from '../services/TowerEventsService.js'
 
-export class TowerEventEventsController extends BaseController {
+export class TowerEventsController extends BaseController {
   constructor() {
     super('api/events')
     console.log('Events Controller Successfully Registered!')
