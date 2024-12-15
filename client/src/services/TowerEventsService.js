@@ -12,6 +12,10 @@ class TowerEventsService {
     AppState.activeEvent = res.data() 
   }
     
+  async getEventsByCreatorId() {
+    const res = await api.get('api/events/creator')
+    AppState.myEvents = res.data.map(e => new Event(e))
+  }
 
   async createEvent(eventData) {
     const res = await api.get('api/events', eventData)
