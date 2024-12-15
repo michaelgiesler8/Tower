@@ -1,108 +1,114 @@
 <template>
-  <div class="event-details">
-    <div class="event-header">
-      <img :src="event.coverImg" :alt="event.name">
-      <div class="event-info">
-        <h1>{{ event.name }}</h1>
-        <span :class="{'canceled': event.isCanceled}">
-          {{ event.isCanceled ? 'CANCELED' : event.ticketCount >= event.capacity ? 'SOLD OUT' : 'AVAILABLE' }}
-        </span>
+  <div class="container-fluid">
+    <div v-if="event" class="row">
+      <div class="col-12 col-md-4 p-0">
+        <img :src="event.coverImg" :alt="event.name" class="event-img">
       </div>
-    </div>
-    <button
-      @click="purchaseTicket"
-      :disabled="event.isCanceled || event.ticketCount >= event.capacity"
-    >
-      Get Ticket
-    </button>
-
-    <div class="comments-section">
-      <form @submit.prevent="postComment" class="comment-form">
-        <textarea v-model="newComment" required></textarea>
-        <button type="submit">Post Comment</button>
-      </form>
-
-      <div class="comments-list">
-        <div v-for="comment in comments" :key="comment.id" class="comment">
-          <img :src="comment.creator.picture" class="creator-img">
-          <div class="comment-content">
-            <h4>{{ comment.creator.name }}</h4>
-            <p>{{  comment.body }}</p>
+      <div class="col-12 col-md-8 p-5">
+        <div class="d-flex justify-content-between">
+          <h1>{{ event.name }}</h1>
+          <div>
+            <button v-if="event.creatorId == account.id" class="btn btn-danger" @click="cancelEvent">
+              Cancel Event
+            </button>
           </div>
-          <button
-            v-if="comment.creatorId === userId"
-            @click="deleteComment(comment.id)"
-          >
-            Delete
+        </div>
+        <p>{{ event.description }}</p>
+        <p>{{ event.location }}</p>
+        <p>{{ event.startDate }}</p>
+        <p>Capacity: {{ event.capacity }}</p>
+        <div v-if="account.id">
+          <button v-if="!hasTicket" class="btn btn-success" @click="createTicket">
+            Get Ticket
+          </button>
+          <button v-else class="btn btn-warning" @click="returnTicket">
+            Return Ticket
           </button>
         </div>
       </div>
     </div>
+
+    <section class="row mt-4">
+      <div class="col-12">
+        <h3>Comments</h3>
+        <CommentForm v-if="account.id" />
+        <div class="comments mt-3">
+          <Comment v-for="comment in comments" :key="comment.id" :comment="comment" />
+        </div>
+        <div v-if="!comments.length" class="text-center text-muted">
+          No comments yet. Be the first to comment!
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
+
 <script>
-import { computed, ref, onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
-import { towerEventsService } from '@/services/TowerEventsService';
-import { ticketsService } from '@/services/TicketsService';
+import { towerEventsService } from '../services/TowerEventsService'
+import { ticketsService } from '../services/TicketsService'
+import { commentsService } from '../services/CommentsService'
 import Pop from '../utils/Pop'
-import { commentsService } from '@/services/CommentsService';
+import Comment from '../components/Comment.vue'
+import CommentForm from '../components/CommentForm.vue'
 
 export default {
+  components: { Comment, CommentForm },
   setup() {
     const route = useRoute()
-    const newComment = ref('')
 
-    async function getEventById() {
+    async function getEvent() {
       try {
         await towerEventsService.getEventsById(route.params.eventId)
-        await ticketsService.getEventTickets(route.params.eventId)
       } catch (error) {
         Pop.error(error)
       }
     }
 
-    onMounted(() => {
-      getEventById()
+    onMounted(async () => {
+      await getEvent()
+      try {
+        await commentsService.getEventComments(route.params.eventId)
+      } catch (error) {
+        Pop.error(error)
+      }
     })
 
     return {
-      newComment,
+      account: computed(() => AppState.account),
       event: computed(() => AppState.activeEvent),
       comments: computed(() => AppState.comments),
-      userId: computed(() => AppState.account.id),
+      hasTicket: computed(() => {
+        if (!AppState.account.id) return false
+        return AppState.tickets.find(t => t.accountId == AppState.account.id)
+      }),
 
-      async purchaseTicket() {
+      async createTicket() {
         try {
           await ticketsService.createTicket(route.params.eventId)
-          Pop.success('Got your ticket!')
         } catch (error) {
           Pop.error(error)
         }
       },
 
-      async postComment() {
+      async returnTicket() {
         try {
-          const commentData = {
-            eventId: route.params.eventId,
-            body: newComment.value
-          }
-          await commentsService.createComment(commentData)
-          newComment.value = ''
-          Pop.success('Comment posted!')
+          const ticket = AppState.tickets.find(t => t.accountId == AppState.account.id)
+          if (!ticket) return
+          await ticketsService.removeTicket(ticket.id)
         } catch (error) {
-        Pop.error(error)
-        
+          Pop.error(error)
         }
       },
 
-      async deleteComment(commentId) {
+      async cancelEvent() {
         try {
-          if (!await Pop.confirm('Delete this comment?')) return
-          await commentsService.deleteComment(commentId)
-          Pop.success('Comment deleted!')
+          if (await Pop.confirm()) {
+            await towerEventsService.cancelEvent(route.params.eventId)
+          }
         } catch (error) {
           Pop.error(error)
         }
