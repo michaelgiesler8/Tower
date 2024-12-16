@@ -28,8 +28,8 @@
 import { ref, onMounted, computed } from 'vue'
 import { AppState } from '../AppState'
 import Pop from '../utils/Pop'
-import EventCard from '../components/CreateEventForm.vue'
-import { towerEventsService } from '../services/EventsService'
+import EventCard from '../components/EventCard.vue'
+import { eventsService } from '../services/EventsService'
 
 export default { 
   name: 'HomePage',
@@ -42,7 +42,7 @@ export default {
 
     async function getEvents() {
       try {
-        await towerEventsService.getEvents()
+        await eventsService.getEvents()
       } catch (error) {
         Pop.error(error)
       }

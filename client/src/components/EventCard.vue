@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .card {
-  height: 100%
+  height: 100%;
   position: relative;
 }
 

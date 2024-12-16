@@ -37,7 +37,7 @@ import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { ticketsService } from '../services/TicketsService'
 import Pop from '../utils/Pop'
-import { towerEventsService } from '@/services/EventsService.js'
+import { eventsService } from '@/services/EventsService.js'
 
 export default {
   setup() {
@@ -56,7 +56,7 @@ export default {
 
     async function getMyEvents() {
       try {
-        await towerEventsService.getEventsByCreatorId()
+        await eventsService.getEventsByCreatorId()
       } catch (error) {
         Pop.error(error)
       }
