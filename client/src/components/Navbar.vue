@@ -35,6 +35,14 @@ function toggleTheme() {
             About
           </router-link>
         </li>
+        <li>
+          <router-link
+            v-if="account"
+            :to="{ name: 'CreateEvent' }"
+            class="btn text-success lighten-30 selectable text-uppercase">
+            Create Event
+          </router-link>
+        </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
       <div>
