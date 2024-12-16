@@ -1,6 +1,6 @@
 import { Auth0Provider } from '@bcwdev/auth0provider';
 import BaseController from '../utils/BaseController';
-import { towerEventsService } from '../services/TowerEventsService.js'
+import { eventsService } from '../services/EventsService'
 
 export class TowerEventsController extends BaseController {
   constructor() {
@@ -17,7 +17,7 @@ export class TowerEventsController extends BaseController {
 
   async getEvents(req, res, next) {
     try {
-      const events = await towerEventsService.getEvents()
+      const events = await eventsService.getEvents()
       return res.send(events)
     } catch (error) {
       next(error)
@@ -26,7 +26,7 @@ export class TowerEventsController extends BaseController {
 
   async getEventById(req, res, next) {
     try {
-      const event = await towerEventsService.getEventById(req.params.id)
+      const event = await eventsService.getEventById(req.params.id)
       return res.send(event)
     } catch (error) {
       next(error)
@@ -36,7 +36,7 @@ export class TowerEventsController extends BaseController {
   async createEvent(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
-      const event = await towerEventsService.createEvent(req.body)
+      const event = await eventsService.createEvent(req.body)
       return res.send(event)
     } catch (error) {
       next(error)
@@ -45,7 +45,7 @@ export class TowerEventsController extends BaseController {
 
   async editEvent(req, res, next) {
     try {
-      const event = await towerEventsService.editEvent(req.params.id, req.body, req.userInfo.id)
+      const event = await eventsService.editEvent(req.params.id, req.body, req.userInfo.id)
     } catch (error) {
       next(error)
     }
@@ -53,7 +53,7 @@ export class TowerEventsController extends BaseController {
 
   async cancelEvent(req, res, next) {
     try {
-      const event = await towerEventsService.cancelEvent(req.params.id, req.userInfo.id)
+      const event = await eventsService.cancelEvent(req.params.id, req.userInfo.id)
       return res.send(event)
     } catch (error) {
       next(error)

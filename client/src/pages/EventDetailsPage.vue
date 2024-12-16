@@ -48,7 +48,7 @@
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { AppState } from '../AppState'
-import { towerEventsService } from '../services/TowerEventsService'
+import { eventsService } from '../services/EventsService'
 import { ticketsService } from '../services/TicketsService'
 import { commentsService } from '../services/CommentsService'
 import Pop from '../utils/Pop'
@@ -62,7 +62,7 @@ export default {
 
     async function getEvent() {
       try {
-        await towerEventsService.getEventsById(route.params.eventId)
+        await eventsService.getEventsById(route.params.eventId)
       } catch (error) {
         Pop.error(error)
       }
@@ -107,7 +107,7 @@ export default {
       async cancelEvent() {
         try {
           if (await Pop.confirm()) {
-            await towerEventsService.cancelEvent(route.params.eventId)
+            await eventsService.cancelEvent(route.params.eventId)
           }
         } catch (error) {
           Pop.error(error)

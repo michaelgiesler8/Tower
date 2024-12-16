@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="handleSumbit" class="event-form">
+  <form @submit.prevent="handleSubmit" class="event-form">
     <input v-model="eventData.name" required placeholder="Event Name">
     <input v-model="eventData.location" required placeholder="Location">
     <select v-mode="eventData.type" required>
@@ -19,7 +19,7 @@
 <script>
 import { ref } from 'vue'
 import Pop from '../utils/Pop'
-import { towerEventsService } from '@/services/TowerEventsService';
+import { eventsService } from '@/services/EventsService';
 import { useRouter } from 'vue-router'
 
 export default {
@@ -37,7 +37,7 @@ export default {
 
     async function handleSubmit() {
       try {
-        const event = await towerEventsService.createEvent(eventData.value)
+        const event = await eventsService.createEvent(eventData.value)
         router.push({ name: 'Event', params: { id: event.id }})
         Pop.success('Event created!')
       } catch (error) {

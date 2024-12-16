@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { AccountSchema } from '../models/Account';
-import { TowerEventSchema } from '../models/TowerEvent';
+import { EventSchema } from '../models/Event';
 import { ValueSchema } from '../models/Value';
 import { TicketSchema } from '../models/Ticket';
 import { CommentSchema } from '../models/Comment';
@@ -8,7 +8,7 @@ import { CommentSchema } from '../models/Comment';
 class DbContext {
   Values = mongoose.model('Value', ValueSchema);
   Account = mongoose.model('Account', AccountSchema);
-  TowerEvents = mongoose.model('TowerEvent', TowerEventSchema);
+  Events = mongoose.model('TowerEvent', EventSchema);
   Tickets = mongoose.model('Ticket', TicketSchema);
   Comments = mongoose.model('Comments', CommentSchema);
 }

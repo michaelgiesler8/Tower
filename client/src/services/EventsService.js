@@ -2,7 +2,7 @@ import { AppState } from '../AppState'
 import { api } from './AxiosService'
 import Pop from "../utils/Pop"
 
-class TowerEventsService {
+class EventsService {
   async getEvents() {
     AppState.loading = true
     try {
@@ -53,4 +53,4 @@ class TowerEventsService {
 
 
 
-export const towerEventsService = new TowerEventsService()
+export const eventsService = new EventsService()

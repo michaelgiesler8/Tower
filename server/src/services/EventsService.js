@@ -1,16 +1,16 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 
-class TowerEventsService {
+class EventsService {
   async getEvents() {
-    const events = await dbContext.TowerEvents.find()
+    const events = await dbContext.Events.find()
       .populate('creator', 'name picture')
       .populate('ticketCount')
     return events
   }
 
   async getEventById(eventId) {
-    const event = await dbContext.TowerEvents.findById(eventId)
+    const event = await dbContext.Events.findById(eventId)
       .populate('creator', 'name picture')
       .populate('ticketCount')
     if (!event) throw new BadRequest('Invalid Event Id')
@@ -18,7 +18,7 @@ class TowerEventsService {
   }
 
   async createEvent(eventData) {
-    const event = await dbContext.TowerEvents.create(eventData)
+    const event = await dbContext.Events.create(eventData)
     await event.populate('creator', 'name picture')
     return event
   }
@@ -32,7 +32,7 @@ class TowerEventsService {
       throw new BadRequest('Cannot edit canceled event')
     }
 
-    const updatedEvent = await dbContext.TowerEvents.findByIdAndUpdate(
+    const updatedEvent = await dbContext.Events.findByIdAndUpdate(
       eventId,
       eventData,
       { new: true, runValidators: true }
@@ -51,4 +51,4 @@ class TowerEventsService {
   }
 }
 
-export const towerEventsService = new TowerEventsService()
+export const eventsService = new EventsService()

@@ -1,6 +1,6 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js"
-import { towerEventsService } from "./TowerEventsService.js";
+import { towerEventsService } from "./EventsService.js";
 
 class TicketService {
 

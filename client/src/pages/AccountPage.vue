@@ -37,7 +37,7 @@ import { computed, onMounted } from 'vue'
 import { AppState } from '../AppState'
 import { ticketsService } from '../services/TicketsService'
 import Pop from '../utils/Pop'
-import { towerEventsService } from '@/services/TowerEventsService.js'
+import { towerEventsService } from '@/services/EventsService.js'
 
 export default {
   setup() {
