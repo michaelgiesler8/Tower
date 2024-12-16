@@ -1,9 +1,11 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { loadState, saveState } from '../utils/Store.js';
+import { AppState } from '../AppState.js';
 import Login from './Login.vue';
 
 const theme = ref(loadState('theme') || 'light')
+const account = computed(() => AppState.account)
 
 onMounted(() => {
   document.documentElement.setAttribute('data-bs-theme', theme.value)
