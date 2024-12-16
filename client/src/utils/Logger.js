@@ -1,4 +1,4 @@
-import { dev } from '../env.js'
+const dev = true
 
 function log(type, content) {
   if (dev) {

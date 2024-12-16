@@ -1,8 +1,10 @@
 import { initialize } from '@bcwdev/auth0provider-client'
 import { AppState } from '../AppState.js'
-import { domain, clientId, audience } from '../env.js'
-import { api } from './AxiosService.js'
+import { audience, clientId, domain } from '../env.js'
 import { accountService } from './AccountService.js'
+import { api } from './AxiosService.js'
+
+
 
 
 
@@ -11,10 +13,12 @@ export const AuthService = initialize({
   clientId,
   authorizationParams: {
     audience,
-    redirect_uri: window.location.origin
+    redirect_uri: 'http://localhost:8080/',
+    prompt: 'login'
   },
+  cacheLocation: 'localstorage',
+  useRefreshTokens: true
 })
-
 AuthService.on('authenticated', async function() {
   api.defaults.headers.common['Authorization'] = AuthService.bearer
   api.interceptors.request.use(refreshAuthToken)

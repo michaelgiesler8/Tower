@@ -1,6 +1,7 @@
 import { AppState } from '../AppState'
 import { api } from './AxiosService'
-import Pop from "../utils/Pop"
+import Pop from '../utils/Pop'
+import { Event } from '../models/Event'
 
 class EventsService {
   async getEvents() {
@@ -18,7 +19,7 @@ class EventsService {
 
   async getEventsById(id) {
     const res = await api.get(`api/events/${id}`)
-    AppState.activeEvent = res.data() 
+    AppState.activeEvent = new Event(res.data) 
   }
     
   async getEventsByCreatorId() {
@@ -27,7 +28,7 @@ class EventsService {
   }
 
   async createEvent(eventData) {
-    const res = await api.get('api/events', eventData)
+    const res = await api.post('api/events', eventData)
     AppState.events.unshift(res.data)
     return res.data
   }
