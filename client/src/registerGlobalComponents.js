@@ -1,3 +1,5 @@
+
+
 export async function registerGlobalComponents(root) {
   // @ts-ignore
   const components = import.meta.glob('./components/globals/*.vue')

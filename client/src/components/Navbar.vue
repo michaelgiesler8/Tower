@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { loadState, saveState } from '../utils/Store.js';
 import { AppState } from '../AppState.js';
+import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
 
 const theme = ref(loadState('theme') || 'light')
@@ -39,24 +39,24 @@ function toggleTheme() {
         </li>
         <li>
           <router-link
-            v-if="account"
+            v-if="account.id"
             :to="{ name: 'CreateEvent' }"
             class="btn text-success lighten-30 selectable text-uppercase">
             Create Event
           </router-link>
         </li>
       </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <div>
+      <div class="d-flex align-items-center">
         <button class="btn text-light" @click="toggleTheme"
           :title="`Enable ${theme == 'light' ? 'dark' : 'light'} theme.`">
           <Icon :name="theme == 'light' ? 'weather-sunny' : 'weather-night'" />
         </button>
+        <Login />
       </div>
-      <Login />
     </div>
   </nav>
 </template>
+
 
 <style scoped>
 a:hover {

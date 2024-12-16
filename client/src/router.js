@@ -5,7 +5,11 @@ function loadPage(page) {
   return () => import(`./pages/${page}.vue`)
 }
 
-const routes = [
+export const router = createRouter({
+  linkActiveClass: 'router-link-active',
+  linkExactActiveClass: 'router-link-exact-active',
+  history: createWebHashHistory(),
+  routes: [
   {
     path: '/',
     name: 'Home',
@@ -34,10 +38,4 @@ const routes = [
     component: loadPage('EventDetailsPage')
   }
 ]
-
-export const router = createRouter({
-  linkActiveClass: 'router-link-active',
-  linkExactActiveClass: 'router-link-exact-active',
-  history: createWebHashHistory(),
-  routes
 })

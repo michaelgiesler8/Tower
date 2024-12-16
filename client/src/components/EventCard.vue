@@ -19,6 +19,12 @@
 
 <script>
 import { computed } from 'vue'
+import { router } from "../router"
+import { Event } from '../models/Event'
+import { AppState } from '../AppState'
+import { eventsService } from '@/services/EventsService'
+import Pop from '../utils/Pop'
+
 
 export default {
   props: {
