@@ -5,7 +5,8 @@ import { loadState, saveState } from '../utils/Store.js';
 import Login from './Login.vue';
 
 const theme = ref(loadState('theme') || 'light')
-const account = computed(() => AppState.account)
+const isAuthenticated = computed(() => AppState.user.isAuthenticated)
+
 
 onMounted(() => {
   document.documentElement.setAttribute('data-bs-theme', theme.value)
@@ -39,7 +40,7 @@ function toggleTheme() {
         </li>
         <li>
           <router-link
-            v-if="account.id"
+            v-if="isAuthenticated"
             :to="{ name: 'CreateEvent' }"
             class="btn text-success lighten-30 selectable text-uppercase">
             Create Event

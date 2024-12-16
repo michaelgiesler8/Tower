@@ -36,6 +36,18 @@ export const router = createRouter({
     path: '/events/:eventId',
     name: 'Event',
     component: loadPage('EventDetailsPage')
+  },
+  {
+    path: '/tickets',
+    name: 'MyTickets',
+    component: loadPage('MyTicketsPage'),
+    beforeEnter: authGuard
+  },
+  {
+    path: '/events/myevents',
+    name: 'MyEvents',
+    component: loadPage('MyEventsPage'),
+    beforeEnter: authGuard
   }
 ]
 })

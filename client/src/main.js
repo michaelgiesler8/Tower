@@ -4,7 +4,7 @@ import { createApp } from 'vue'
 import { registerGlobalComponents } from './registerGlobalComponents'
 import App from './App.vue'
 import { router } from './router'
-import './services/AuthService'
+import { AuthService } from './services/AuthService'
 import './services/TicketsService'
 import './services/CommentsService'
 import './services/EventsService'
@@ -17,4 +17,5 @@ await registerGlobalComponents(root)
   
 root
   .use(router)
+  .use(AuthService)
   .mount('#app')
