@@ -6,19 +6,9 @@ export class CommentsController extends BaseController {
   constructor() {
     super('api/comments')
     this.router
-      .get('/:eventId', this.getEventsComments)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createComment)
       .delete('/:id', this.deleteComment)
-  }
-
-  async getEventsComments(req, res, next) {
-    try {
-      const comments = await commentsService.getEventComments(req.params.eventId)
-      return res.send(comments)
-    } catch (error) {
-      next(error)
-    }
   }
 
   async createComment(req, res, next) {

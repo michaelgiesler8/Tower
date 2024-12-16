@@ -49,6 +49,18 @@ class EventsService {
     await event.save()
     return event
   }
+
+  async getEventTickets(eventId) {
+    const tickets = await dbContext.Tickets.find({ eventId })
+      .populate('profile', 'name picture')
+    return tickets
+  }
+
+  async getEventComments(eventId) {
+    const comments = await dbContext.Comments.find({ eventId })
+      .populate('creator', 'name picture')
+    return comments
+  }
 }
 
 export const eventsService = new EventsService()
