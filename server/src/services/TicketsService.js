@@ -1,9 +1,8 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js"
-import { towerEventsService } from "./EventsService.js";
+import { eventsService } from "./EventsService.js";
 
 class TicketService {
-
   async getEventTickets(eventId) {
     const tickets = await dbContext.Tickets.find({ eventId })
       .populate('profile', 'name picture')
@@ -11,7 +10,7 @@ class TicketService {
   }
 
   async createTicket(ticketData) {
-    const event = await towerEventsService.getEventById(ticketData.eventId);
+    const event = await dbContext.Events.findById(ticketData.eventId);
     if (event.isCanceled) {
       throw new BadRequest('Event is canceled');
     }
@@ -24,16 +23,7 @@ class TicketService {
     return ticket;
   }
 
-  async isEventFull(eventId) {
-    const event = await towerEventsService.getEventById(eventId);
-    const ticketCount = await dbContext.Tickets.countDocuments({ eventId });
-    return ticketCount >= event.capacity;
-  }
 
-  async getTicketsByEvent(eventId) {
-    const tickets = await dbContext.Tickets.find({ eventId }).populate('accountId', 'name picture');
-    return tickets;
-  }
 
   async deleteTicket(ticketId, userId) {
     const ticket = await dbContext.Tickets.findById(ticketId);
