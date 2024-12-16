@@ -5,15 +5,12 @@ import { accountService } from './AccountService.js'
 import { api } from './AxiosService.js'
 
 
-
-
-
 export const AuthService = initialize({
   domain,
   clientId,
   authorizationParams: {
     audience,
-    redirect_uri: 'http://localhost:8080/',
+    redirect_uri: window.location.origin,
     prompt: 'login'
   },
   cacheLocation: 'localstorage',
