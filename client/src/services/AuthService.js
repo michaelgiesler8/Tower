@@ -21,6 +21,7 @@ AuthService.on('authenticated', async function() {
   api.interceptors.request.use(refreshAuthToken)
   AppState.identity = AuthService.identity
   await accountService.getAccount()
+
 })
 
 async function refreshAuthToken(config) {
